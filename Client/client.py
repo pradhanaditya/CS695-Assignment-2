@@ -19,7 +19,7 @@ high_load_list = [30, 31, 32, 33, 34, 35]
 nServers = 1
 
 def client_thread(server_ip, server_port):
-    sleep_time = 0.2
+    sleep_time = 0.05
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect((server_ip, server_port))
         while True:
@@ -32,12 +32,13 @@ def client_thread(server_ip, server_port):
                 displayLock.release()
                 time.sleep(sleep_time)    
             elif current_mode == available_modes['HIGH_LOAD']:
-                s.sendall(str(random.choice(high_load_list)).encode('utf-8'))
+                s.sendall(str(random.choice(low_load_list)).encode('utf-8'))
                 response = s.recv(1024)
                 result = int(response.decode('utf-8'))
                 displayLock.acquire()
                 print("Received the response: " + str(result))
                 displayLock.release()
+                time.sleep(0.01)
             else:
                 displayLock.acquire()
                 print("Unexpected error!")

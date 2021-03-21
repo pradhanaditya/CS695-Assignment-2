@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from __future__ import print_function
 import sys
 import libvirt
@@ -10,16 +12,16 @@ if connToHypervisor == None:
     print('Failed to open connection to qemu:///system', file=sys.stderr)
     exit(1)
 
-domainName = 'vm1'
+domainName = 'vm2'
 
-dom = conn.lookupByName(domainName)
+dom = connToHypervisor.lookupByName(domainName)
 
 if dom == None:
     print("Failed to get the domain object", file=sys.stderr)
 
 print(dom)
 
-domainIDList = conn.listDomainsID()
+domainIDList = connToHypervisor.listDomainsID()
 
 if (domainIDList == None):
     print("Failed to get a list of domain IDs", file=sys.stderr)
@@ -32,7 +34,7 @@ else:
     for domainID in domainIDList:
         print(" " + str(domainID))
 
-domainNamesList = conn.listDefinedDomains()
+domainNamesList = connToHypervisor.listDefinedDomains()
 
 print("\nAll domain names:")
 
@@ -42,7 +44,7 @@ else:
     for domainName in domainNamesList:
         print(domainName)
 
-domainsList = conn.listAllDomains(0)
+domainsList = connToHypervisor.listAllDomains(0)
 
 print(domainsList)
 
@@ -53,25 +55,25 @@ if (id == -1):
 else:
     print("Domain is running with id = " + str(id))
 
-vmDom1 = conn.lookupByName("vm1")
+vmDom1 = connToHypervisor.lookupByName("vm2")
 
 print("OS Type of " + vmDom1.name() + " = " + vmDom1.OSType())
 
 # Obtaining the CPU time for vm1
 cpuStats1 = vmDom1.getCPUStats(True)
 
-print('CPU time (vm1) : ' + str(cpuStats1[0]['cpu_time']))
-print('System time (vm1) : ' + str(cpuStats1[0]['system_time']))
-print('User time (vm1) : ' + str(cpuStats1[0]['user_time']))
+print('CPU time (vm2) : ' + str(cpuStats1[0]['cpu_time']))
+print('System time (vm2) : ' + str(cpuStats1[0]['system_time']))
+print('User time (vm2) : ' + str(cpuStats1[0]['user_time']))
 
-time.sleep(0.1)
+time.sleep(1)
 
 cpuStats2 = vmDom1.getCPUStats(True)
 
-cpuUsage = (100*(cpuStats2[0]['cpu_time'] - cpuStats1[0]['cpu_time']))/(10 ** 8)
+cpuUsage = (100*(cpuStats2[0]['cpu_time'] - cpuStats1[0]['cpu_time']))/(10 ** 9)
 
 print('CPU Usage : ' + str(cpuUsage))
 
-conn.close()
+connToHypervisor.close()
 
 exit(0)
