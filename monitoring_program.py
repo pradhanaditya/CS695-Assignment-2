@@ -6,6 +6,7 @@ import libvirt
 import time
 import socket
 
+# Test comment
 # Getting a connection to the hypervisor
 connToHypervisor = libvirt.open('qemu:///system')
 
