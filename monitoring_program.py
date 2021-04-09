@@ -4,6 +4,7 @@ from __future__ import print_function
 import sys
 import libvirt
 import time
+import socket
 
 # Getting a connection to the hypervisor
 connToHypervisor = libvirt.open('qemu:///system')
