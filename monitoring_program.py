@@ -7,6 +7,7 @@ import time
 
 # Getting a connection to the hypervisor
 connToHypervisor = libvirt.open('qemu:///system')
+# Comment just for testing
 
 if connToHypervisor == None:
     print('Failed to open connection to qemu:///system', file=sys.stderr)
