@@ -1,1 +1,1 @@
-## Cloud management Platform
+## Cloud Management Platform
